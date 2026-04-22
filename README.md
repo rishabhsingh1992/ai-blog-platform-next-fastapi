@@ -1,36 +1,101 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Blog (Next.js 16)
 
-## Getting Started
+A minimal blog application built with Next.js App Router, React 19, TypeScript, and Tailwind CSS v4.
 
-First, run the development server:
+## Project Status
+
+Current status: functional prototype.
+
+- Home page lists posts from an in-memory data source.
+- Dynamic route renders full post details at /blog/[slug].
+- Create form submits through a server action with basic validation.
+- Lint and production build both pass.
+
+Production readiness is not complete yet. The create flow does not persist data and several navigation links point to routes that are not implemented. See TASKS.md for prioritized work.
+
+## Tech Stack
+
+- Next.js 16.2.4 (App Router, Turbopack)
+- React 19.2.4
+- TypeScript 5 (strict mode)
+- Tailwind CSS v4 via @import and @theme
+- ESLint 9 with eslint-config-next/core-web-vitals and typescript presets
+
+## Application Structure
+
+Top-level layout:
+
+- app/layout.tsx: root layout, metadata, global shell
+- app/page.tsx: home page with recent post cards
+- app/blog/[slug]/page.tsx: dynamic post detail route
+- app/blog/create/page.tsx: create post page
+- app/blog/create/create-post-form.tsx: client form and action wiring
+- app/actions.ts: server action for create flow validation
+- app/lib/posts.ts: in-memory post data and read-time helper
+- app/ui/header.tsx and app/ui/footer.tsx: shared navigation/footer
+- app/globals.css: Tailwind v4 setup and design tokens
+
+## Implemented Routes
+
+- /: static home page
+- /blog/[slug]: dynamic blog post route
+- /blog/create: static create-post page
+
+Notes:
+
+- Header currently links to /blog and /about, but those routes do not exist yet.
+
+## Local Development
+
+Prerequisites:
+
+- Node.js 20 LTS or newer
+- npm 10 or newer
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Run lint:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run lint
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Build for production:
 
-## Learn More
+```bash
+npm run build
+```
 
-To learn more about Next.js, take a look at the following resources:
+Run production server:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run start
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Quality Check Snapshot
 
-## Deploy on Vercel
+Verification run on 2026-04-22:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- npm run lint: passed
+- npm run build: passed
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Known Gaps
+
+- Create post action validates title/content only and does not persist data.
+- Tag and excerpt fields are captured by the form but ignored in server action logic.
+- Posts are hardcoded in memory, with no database or CMS integration.
+- No automated test suite is configured yet.
+
+## Next Steps
+
+See TASKS.md for prioritized implementation work and suggested delivery order.
