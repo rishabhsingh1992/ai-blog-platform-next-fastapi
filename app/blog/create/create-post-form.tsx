@@ -1,9 +1,10 @@
 'use client'
 
-import { useActionState } from 'react'
+import { useActionState, useEffect } from 'react'
 import { useFormStatus } from 'react-dom'
 import Link from 'next/link'
 import { createPost, type CreatePostState } from '@/app/actions'
+import { useToast } from '@/app/lib/toast'
 
 const TAGS = ['Tutorial', 'React', 'CSS', 'JavaScript', 'TypeScript', 'Other']
 
@@ -15,26 +16,32 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="inline-flex items-center justify-center rounded-lg bg-accent px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-accent-hover disabled:opacity-60 disabled:cursor-not-allowed"
+      className="inline-flex items-center justify-center rounded-xl bg-foreground px-8 py-3 text-sm font-bold text-background transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed"
     >
-      {pending ? 'Publishing…' : 'Publish Post'}
+      {pending ? (
+        <span className="flex items-center gap-2">
+          <svg className="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+          Publishing...
+        </span>
+      ) : 'Publish Post'}
     </button>
   )
 }
 
 export default function CreatePostForm() {
   const [state, formAction] = useActionState(createPost, initialState)
+  const { showToast } = useToast()
+
+  useEffect(() => {
+    if (state.message) {
+      const isError = state.errors && Object.keys(state.errors).length > 0;
+      showToast(state.message, isError ? "error" : "success");
+    }
+  }, [state.message, state.errors, showToast]);
 
   return (
     <form action={formAction} className="space-y-8">
-      {state.message && (
-        <div
-          role="status"
-          className="rounded-lg border border-border bg-surface px-4 py-3 text-sm text-foreground"
-        >
-          {state.message}
-        </div>
-      )}
+
 
       <div className="space-y-2">
         <label htmlFor="title" className="block text-sm font-medium">

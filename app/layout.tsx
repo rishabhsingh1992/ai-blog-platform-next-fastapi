@@ -5,6 +5,8 @@ import Header from "./ui/header";
 import Footer from "./ui/footer";
 import Sidebar from "./ui/sidebar";
 import { AuthProvider } from "./lib/auth";
+import { BookmarksProvider } from "./lib/bookmarks";
+import { ToastProvider } from "./lib/toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -45,13 +47,19 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <AuthProvider>
-          <Header />
-          <div className="flex flex-1">
-            <Sidebar />
-            <main className="min-w-0 flex-1">{children}</main>
-          </div>
-          <Footer />
+          <BookmarksProvider>
+            <ToastProvider>
+              <Header />
+              <div className="flex flex-1">
+                <Sidebar />
+                <main className="min-w-0 flex-1">{children}</main>
+              </div>
+              <Footer />
+            </ToastProvider>
+          </BookmarksProvider>
         </AuthProvider>
+
+
       </body>
     </html>
   );

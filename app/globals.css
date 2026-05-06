@@ -8,6 +8,8 @@
   --color-muted: #6b7280;
   --color-border: #e5e7eb;
   --color-surface: #f9fafb;
+  --glass-background: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(229, 231, 235, 0.5);
 }
 
 @theme inline {
@@ -23,6 +25,8 @@
   --color-muted: #9ca3af;
   --color-border: #1f2937;
   --color-surface: #111827;
+  --glass-background: rgba(10, 10, 10, 0.7);
+  --glass-border: rgba(31, 41, 55, 0.5);
 }
 
 body {

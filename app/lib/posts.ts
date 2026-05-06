@@ -91,3 +91,16 @@ export function getAllPosts(): Post[] {
 export function getPost(slug: string): Post | undefined {
   return posts.find((post) => post.slug === slug);
 }
+
+export function searchPosts(query: string): Post[] {
+  const q = query.toLowerCase().trim();
+  if (!q) return [];
+  
+  return posts.filter(
+    (post) =>
+      post.title.toLowerCase().includes(q) ||
+      post.excerpt.toLowerCase().includes(q) ||
+      post.tag.toLowerCase().includes(q)
+  );
+}
+
